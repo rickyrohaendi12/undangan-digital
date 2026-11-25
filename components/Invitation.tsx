@@ -32,6 +32,22 @@ export default function Invitation({
   const [playing, setPlaying] = useState(false);
   const [petals, setPetals] = useState<CSSProperties[]>([]);
   const [left, setLeft] = useState<number | null>(null);
+  const [wish, setWish] = useState({
+    name: guest === "Tamu Undangan" ? "" : guest,
+    message: "",
+  });
+  const [wishes, setWishes] = useState([
+    {
+      name: "Rina & Keluarga",
+      message:
+        "Selamat menempuh hidup baru! Semoga selalu diberi kebahagiaan dan keberkahan.",
+    },
+    {
+      name: "Bagas",
+      message:
+        "Doa terbaik untuk kalian berdua. Semoga pernikahannya sakinah, mawaddah, warahmah.",
+    },
+  ]);
   const [rsvp, setRsvp] = useState({
     name: guest === "Tamu Undangan" ? "" : guest,
     status: "Hadir",
@@ -147,6 +163,27 @@ export default function Invitation({
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
+
+  /* ---------- Ucapan tamu ---------- */
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("wedding-wishes");
+      if (saved) setWishes(JSON.parse(saved));
+    } catch {}
+  }, []);
+
+  function sendWish() {
+    const name = wish.name.trim();
+    const message = wish.message.trim();
+    if (!name || !message) return;
+
+    const nextWishes = [{ name, message }, ...wishes];
+    setWishes(nextWishes);
+    setWish({ name, message: "" });
+    try {
+      window.localStorage.setItem("wedding-wishes", JSON.stringify(nextWishes));
+    } catch {}
+  }
 
   /* ---------- Muncul saat scroll ---------- */
   useEffect(() => {
@@ -342,8 +379,45 @@ export default function Invitation({
           </div>
         </section>
 
-        <section className="rv">
+        <section id="wishes" className="rv">
           <h2 className="title">Ucapan &amp; Doa</h2>
+          <p className="lead">
+            Tulis doa dan ucapan terbaik Anda untuk kebahagiaan kami.
+          </p>
+          <div className="wish-form">
+            <input
+              placeholder="Nama Anda"
+              aria-label="Nama pengirim ucapan"
+              value={wish.name}
+              onChange={(e) => setWish({ ...wish, name: e.target.value })}
+            />
+            <textarea
+              placeholder="Tuliskan ucapan atau doa..."
+              aria-label="Ucapan dan doa"
+              value={wish.message}
+              onChange={(e) => setWish({ ...wish, message: e.target.value })}
+              maxLength={500}
+            />
+            <button
+              className="btn"
+              onClick={sendWish}
+              disabled={!wish.name.trim() || !wish.message.trim()}
+            >
+              Kirim ucapan
+            </button>
+          </div>
+          <div className="wish-list" aria-live="polite">
+            {wishes.map((item, i) => (
+              <article className="wish-card" key={`${item.name}-${i}`}>
+                <h3>{item.name}</h3>
+                <p>{item.message}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="rv">
+          <h2 className="title">Ucapan &amp; doa</h2>
           <p className="lead">
             Tinggalkan ucapan dan doa untuk kedua mempelai.
           </p>

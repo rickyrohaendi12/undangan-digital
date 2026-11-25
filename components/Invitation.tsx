@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { config } from "@/lib/config";
+import GuestBook, { type Ucapan } from "./GuestBook";
 
 const CHORDS = [
   [261.63, 329.63, 392.0, 523.25], // C
@@ -22,8 +23,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function Invitation({
   guest,
+  ucapan,
 }: {
   guest: string;
+  ucapan: Ucapan[];
 }) {
   const [open, setOpen] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -337,6 +340,14 @@ export default function Invitation({
               Kirim via WhatsApp
             </button>
           </div>
+        </section>
+
+        <section className="rv">
+          <h2 className="title">Ucapan &amp; Doa</h2>
+          <p className="lead">
+            Tinggalkan ucapan dan doa untuk kedua mempelai.
+          </p>
+          <GuestBook items={ucapan} defaultName={guest} />
         </section>
 
         <footer className="rv">

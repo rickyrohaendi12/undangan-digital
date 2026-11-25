@@ -469,3 +469,25 @@ footer .script {
   width: 100%;
   resize: vertical;
 }
+.wishes {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto 0;
+  max-width: 460px;
+  max-height: 420px;
+  overflow-y: auto;
+  text-align: left;
+}
+.wishes li {
+  border-top: 1px solid var(--line);
+  padding: 16px 4px;
+}
+.wishes small {
+  color: var(--muted);
+}
+.wishes p {
+  color: var(--muted);
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

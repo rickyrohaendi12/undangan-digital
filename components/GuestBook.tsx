@@ -7,7 +7,6 @@ export type Ucapan = {
   id: number;
   nama: string;
   pesan: string;
-  kehadiran: string | null;
 };
 
 export default function GuestBook({
@@ -52,12 +51,6 @@ export default function GuestBook({
           rows={4}
           required
         />
-        <select name="kehadiran" defaultValue="">
-          <option value="">Kehadiran (opsional)</option>
-          <option>Hadir</option>
-          <option>Tidak hadir</option>
-          <option>Masih ragu</option>
-        </select>
         {/* jebakan bot */}
         <input
           name="website"
@@ -80,7 +73,6 @@ export default function GuestBook({
         {items.map((u) => (
           <li key={u.id}>
             <strong>{u.nama}</strong>
-            {u.kehadiran && <small> · {u.kehadiran}</small>}
             <p>{u.pesan}</p>
           </li>
         ))}

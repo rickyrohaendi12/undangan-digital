@@ -9,7 +9,7 @@ export default async function Page({ searchParams }: Props) {
 
   const { data } = await supabase
     .from("ucapan")
-    .select("id, nama, pesan, kehadiran")
+    .select("id, nama, pesan")
     .order("created_at", { ascending: false })
     .limit(50);
 
